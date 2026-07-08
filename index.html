@@ -7,85 +7,210 @@
 
 <style>
 body{
-font-family:Arial, sans-serif;
-background:#f3f7f4;
+font-family:Arial,sans-serif;
+background:#eef5ef;
 margin:0;
 padding:20px;
 }
 
-.header{
+.container{
+max-width:900px;
+margin:auto;
+}
+
+h1{
 background:#2E7D32;
 color:white;
 padding:20px;
-border-radius:15px;
+border-radius:10px;
 text-align:center;
-}
-
-.menu{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:15px;
-margin-top:20px;
 }
 
 .card{
 background:white;
 padding:20px;
-border-radius:15px;
-text-align:center;
-font-size:20px;
-box-shadow:0 3px 8px rgba(0,0,0,.15);
+border-radius:10px;
+margin-top:20px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
 }
 
-.stat{
-background:white;
-padding:15px;
+input,textarea,select{
+width:100%;
+padding:10px;
+margin:8px 0;
+border-radius:6px;
+border:1px solid #ccc;
+box-sizing:border-box;
+}
+
+button{
+background:#2E7D32;
+color:white;
+padding:12px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+width:100%;
+font-size:16px;
+}
+
+button:hover{
+background:#1B5E20;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
 margin-top:15px;
-border-radius:15px;
-font-size:18px;
+}
+
+th,td{
+border:1px solid #ddd;
+padding:10px;
+text-align:center;
+}
+
+th{
+background:#2E7D32;
+color:white;
+}
+
+.good{
+color:green;
+font-weight:bold;
+}
+
+.bad{
+color:red;
+font-weight:bold;
 }
 </style>
 
 </head>
-
 <body>
 
-<div class="header">
+<div class="container">
+
 <h1>📖 TahfidzKu</h1>
-<p>Aplikasi Monitoring Tahfidz</p>
-</div>
-
-<div class="stat">
-👥 Santri : 10
-</div>
-
-<div class="stat">
-📖 Setoran Hari Ini : 0
-</div>
-
-<div class="stat">
-🎯 Target Tercapai : 0
-</div>
-
-<div class="menu">
 
 <div class="card">
-👥<br>Santri
-</div>
 
-<div class="card">
-➕<br>Input Setoran
-</div>
+<h2>Input Hafalan Hari Ini</h2>
 
-<div class="card">
-📊<br>Rekap
+<input id="tanggal" type="date">
+
+<input id="surah" placeholder="Nama Surah">
+
+<input id="ayat" placeholder="Ayat (contoh 1-10)">
+
+<input id="nilai" type="number" placeholder="Nilai (0-100)">
+
+<select id="target">
+<option value="Tercapai">✅ Target Tercapai</option>
+<option value="Belum">❌ Belum Tercapai</option>
+</select>
+
+<textarea id="catatan" placeholder="Catatan Guru"></textarea>
+
+<input id="besok" placeholder="Target Besok">
+
+<button onclick="simpan()">Simpan</button>
+
 </div>
 
 <div class="card">
-📄<br>Rapor
+
+<h2>Perkembangan Hafalan</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Tanggal</th>
+
+<th>Surah</th>
+
+<th>Ayat</th>
+
+<th>Nilai</th>
+
+<th>Status</th>
+
+<th>Target Besok</th>
+
+</tr>
+
+</thead>
+
+<tbody id="data">
+
+</tbody>
+
+</table>
+
 </div>
 
 </div>
+
+<script>
+
+let daftar=[];
+
+function simpan(){
+
+let t=document.getElementById("tanggal").value;
+let s=document.getElementById("surah").value;
+let a=document.getElementById("ayat").value;
+let n=document.getElementById("nilai").value;
+let st=document.getElementById("target").value;
+let b=document.getElementById("besok").value;
+
+daftar.push({
+tanggal:t,
+surah:s,
+ayat:a,
+nilai:n,
+status:st,
+besok:b
+});
+
+tampil();
+
+}
+
+function tampil(){
+
+let isi="";
+
+daftar.forEach(x=>{
+
+isi+=`
+<tr>
+
+<td>${x.tanggal}</td>
+
+<td>${x.surah}</td>
+
+<td>${x.ayat}</td>
+
+<td>${x.nilai}</td>
+
+<td class="${x.status=="Tercapai"?"good":"bad"}">${x.status}</td>
+
+<td>${x.besok}</td>
+
+</tr>
+`;
+
+});
+
+document.getElementById("data").innerHTML=isi;
+
+}
+
+</script>
 
 </body>
 </html>
